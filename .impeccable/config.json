@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "src/components/Gallery.astro"
+        ],
+        "createdAt": "2026-09-14T17:19:59.323Z",
+        "reason": "Claude: lightbox <img> is hidden and receives its src via JS on open, never renders empty"
+      }
+    ]
+  }
+}

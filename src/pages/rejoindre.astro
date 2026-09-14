@@ -1,0 +1,184 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import TrialForm from '../components/TrialForm.astro';
+import Schedule from '../components/Schedule.astro';
+import Venues from '../components/Venues.astro';
+import { site } from '../data/site';
+import { pricing, registrationSteps, season } from '../data/practical';
+import heroImg from '../assets/images/intro-deux-garcons.jpg';
+import sideImg from '../assets/images/gallery-gant-main.jpg';
+---
+
+<BaseLayout title="Rejoindre le club" description="Essai gratuit, inscription, tarifs, horaires d'entraînement et terrains des Guardians Binche.">
+  <PageHero
+    eyebrow="Infos pratiques"
+    title="Rejoins"
+    script="les Guardians"
+    intro="Trois entraînements d'essai gratuits, sans matériel ni engagement. Ensuite, l'inscription se fait en quatre étapes."
+    image={heroImg}
+    imageAlt="Deux jeunes joueurs de baseball en casquette rouge"
+    position="center 30%"
+  />
+
+  <!-- Essai -->
+  <section class="section" id="essai">
+    <div class="container trial">
+      <aside class="trial-aside" data-reveal>
+        <p class="eyebrow eyebrow--left">Essai gratuit</p>
+        <h2>Envie de tester <span class="script">le baseball ?</span></h2>
+        <ul class="perks">
+          <li><span>3</span> entraînements offerts</li>
+          <li><span>0</span> matériel à acheter</li>
+          <li><span>5+</span> ans pour commencer</li>
+        </ul>
+        <p>Viens en tenue de sport avec une bouteille d'eau. Nos coaches prêtent gants, battes et casques et t'intègrent directement au groupe.</p>
+        <div class="frame aside-img">
+          <Image src={sideImg} alt="Balle de baseball tenue dans un gant" widths={[400, 700]} sizes="(min-width: 960px) 30vw, 100vw" />
+        </div>
+      </aside>
+      <div class="trial-card" data-reveal data-reveal-delay="120">
+        <h3>Réserve ta séance d'essai</h3>
+        <p class="form-note">Un coach te recontacte pour fixer la date dans ta catégorie.</p>
+        <TrialForm />
+      </div>
+    </div>
+  </section>
+
+  <!-- Inscription -->
+  <section class="section section--sand" id="inscription">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Inscription {season}</p>
+        <h2>Quatre étapes <span class="script">et c'est parti</span></h2>
+        <p>Conquis après ton essai ? Voici comment devenir officiellement un Guardian.</p>
+      </div>
+
+      <ol class="steps">
+        {
+          registrationSteps.map((step, i) => (
+            <li data-reveal data-reveal-delay={i * 100}>
+              <span class="step-num">{i + 1}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+              {i === 0 && (
+                <a class="link-arrow" href={site.kalisport.registration} target="_blank" rel="noopener">
+                  Pré-inscription <Icon name="lucide:arrow-up-right" aria-hidden="true" />
+                </a>
+              )}
+              {i === 1 && (
+                <a class="mail" href={`mailto:${site.emails.inscription}`}>
+                  <Icon name="lucide:mail" aria-hidden="true" /> {site.emails.inscription}
+                </a>
+              )}
+              {i === 2 && (
+                <p class="bank">
+                  <span>{site.bank.iban}</span>
+                  <small>{site.bank.holder}</small>
+                </p>
+              )}
+              {i === 3 && (
+                <a class="link-arrow" href={site.kalisport.login} target="_blank" rel="noopener">
+                  Créer mon compte <Icon name="lucide:arrow-up-right" aria-hidden="true" />
+                </a>
+              )}
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="pricing" data-reveal>
+        <div class="pricing-head">
+          <h3>Cotisations {season}</h3>
+          <p>Tarif selon la catégorie · formulaire de licence dans <a href="/documents#licence">Documents</a></p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th scope="col">Catégorie</th><th scope="col">Années de naissance</th><th scope="col">Cotisation</th></tr>
+            </thead>
+            <tbody>
+              {pricing.map((p) => (
+                <tr><th scope="row">{p.category}</th><td>{p.births}</td><td class="price">{p.price} €</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Entraînements -->
+  <section class="section" id="entrainements">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Entraînements</p>
+        <h2>Dehors l'été, <span class="script">en salle l'hiver</span></h2>
+        <p>Horaires de la saison {season}. Les séances ponctuelles et matchs sont annoncés dans le calendrier du club.</p>
+      </div>
+      <Schedule />
+      <p class="calendar-link" data-reveal>
+        <a href={site.kalisport.calendar} class="btn btn--ghost" target="_blank" rel="noopener">
+          <Icon name="lucide:calendar-days" aria-hidden="true" /> Voir le calendrier complet
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Terrains -->
+  <section class="section section--sand" id="terrains">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Nos terrains</p>
+        <h2>Où nous <span class="script">trouver ?</span></h2>
+      </div>
+      <Venues />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .trial { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); align-items: start; }
+  @media (min-width: 960px) { .trial { grid-template-columns: 0.8fr 1.2fr; } }
+  .perks { list-style: none; padding: 0; margin: 1.5rem 0; display: grid; gap: 0.25rem; }
+  .perks li { display: flex; align-items: baseline; gap: 0.9rem; font-size: 1.05rem; padding-block: 0.6rem; border-bottom: 1px solid var(--line); }
+  .perks span { font-family: var(--font-display); font-size: 1.9rem; font-weight: 400; color: var(--red); min-width: 3.5rem; line-height: 1; }
+  .aside-img { aspect-ratio: 16 / 10; margin-top: 1.5rem; }
+  .trial-card { background: var(--white); padding: clamp(1.5rem, 4vw, 3rem); border-top: 4px solid var(--red); box-shadow: 0 24px 60px rgba(20, 20, 20, 0.08); }
+  .trial-card h3 { margin-bottom: 0.3rem; }
+  .trial-card > .form-note { margin-bottom: 1.75rem; }
+
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; counter-reset: step; }
+  @media (min-width: 700px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+  .steps li { background: var(--paper); padding: 2rem 1.75rem; display: flex; flex-direction: column; align-items: flex-start; }
+  .step-num { font-family: var(--font-script); font-size: 3rem; line-height: 1; color: var(--red); margin-bottom: 0.75rem; }
+  .steps h3 { font-size: 1.05rem; }
+  .steps p { color: var(--muted); font-size: 0.97rem; }
+  .steps .link-arrow, .steps .mail { margin-top: auto; }
+  .mail { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.9rem; font-weight: 600; color: var(--red-deep); text-decoration: none; overflow-wrap: anywhere; }
+  .mail:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .mail svg { width: 1rem; height: 1rem; flex-shrink: 0; }
+  .bank { margin: auto 0 0 !important; display: grid; }
+  .bank span { font-family: var(--font-display); font-weight: 400; color: var(--black) !important; letter-spacing: 0.04em; }
+  .bank small { font-size: 0.75rem; }
+
+  .pricing { margin-top: clamp(3rem, 6vw, 4.5rem); background: var(--white); padding: clamp(1.5rem, 4vw, 3rem); }
+  .pricing-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.5rem 2rem; margin-bottom: 1.5rem; }
+  .pricing-head h3 { margin: 0; }
+  .pricing-head p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+  .pricing-head a { color: var(--red-deep); }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; min-width: 30rem; }
+  th, td { text-align: left; padding: 1rem 0.75rem; border-bottom: 1px solid var(--line); }
+  thead th { font-family: var(--font-accent); font-size: 1.05rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+  tbody th { font-weight: 600; color: var(--black); }
+  .price { font-family: var(--font-display); font-weight: 400; font-size: 1.2rem; color: var(--red-deep); text-align: right; white-space: nowrap; }
+  thead th:last-child { text-align: right; }
+  tbody tr { transition: background 0.2s; }
+  tbody tr:hover { background: var(--paper); }
+
+  .calendar-link { text-align: center; margin-top: 2.5rem; }
+</style>

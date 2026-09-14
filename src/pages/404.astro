@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import heroImg from '../assets/images/gallery-balles-sol.jpg';
+---
+
+<BaseLayout title="Page introuvable">
+  <PageHero eyebrow="Erreur 404" title="Balle perdue" script="hors du terrain" intro="La page que vous cherchez n'existe pas ou a été déplacée." image={heroImg} imageAlt="Balles de baseball sur la terre battue">
+    <div class="btn-row" style="margin-top:2rem">
+      <a href="/" class="btn">Retour à l'accueil</a>
+      <a href="/rejoindre#essai" class="btn btn--light">Essai gratuit</a>
+    </div>
+  </PageHero>
+</BaseLayout>

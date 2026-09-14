@@ -1,0 +1,169 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Quote from '../components/Quote.astro';
+import { site } from '../data/site';
+import { venues } from '../data/practical';
+import heroImg from '../assets/images/saison-terrain.jpg';
+import summerImg from '../assets/images/gallery-frappe-jeune.jpg';
+import winterImg from '../assets/images/gallery-cage.jpg';
+import matchImg from '../assets/images/gallery-glissade.jpg';
+import b5Img from '../assets/images/hero-equipe-celebration.jpg';
+import quoteBg from '../assets/images/page-saison-base.jpg';
+
+const matchVenue = venues.find((v) => v.usage === 'Matchs à domicile')!;
+const phases = [
+  {
+    icon: 'lucide:snowflake',
+    period: 'Novembre — mars',
+    title: 'La préparation',
+    text: "L'hiver, place au travail en salle : condition physique, lancers, réception et technique de frappe. Les jeunes s'entraînent à Péronnes, les adultes à Erquelinnes.",
+    image: winterImg,
+    alt: 'Frappeur à l’entraînement en cage',
+  },
+  {
+    icon: 'lucide:sun',
+    period: 'Fin mars — fin septembre',
+    title: 'La saison sur le terrain',
+    text: "Retour au grand air à Épinois pour les entraînements. Les week-ends, championnats et tournois s'enchaînent pour toutes les catégories.",
+    image: summerImg,
+    alt: 'Jeune frappeur pendant un match',
+  },
+  {
+    icon: 'lucide:trophy',
+    period: 'Week-ends',
+    title: 'Les matchs',
+    text: "Nos équipes affrontent les autres clubs du championnat. À domicile, rendez-vous au SHAPE à Maisières pour encourager les rouges !",
+    image: matchImg,
+    alt: 'Joueur qui glisse sur la base',
+  },
+];
+---
+
+<BaseLayout title="La saison" description="Rythme de la saison, matchs à domicile et The Guardians B5 Cup : toute l'actualité sportive des Guardians Binche.">
+  <PageHero
+    eyebrow="Saison"
+    title="Une saison"
+    script="bien remplie"
+    intro="Préparation en salle, championnat au soleil, tournois et événements : voici comment vit le club tout au long de l'année."
+    image={heroImg}
+    imageAlt="Joueur de baseball sur la ligne d'un terrain"
+  >
+    <div class="btn-row hero-btns">
+      <a href={site.kalisport.calendar} class="btn" target="_blank" rel="noopener"><Icon name="lucide:calendar-days" aria-hidden="true" /> Calendrier des matchs</a>
+    </div>
+  </PageHero>
+
+  <section class="section" id="rythme">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Le rythme de la saison</p>
+        <h2>De l'hiver <span class="script">à l'été</span></h2>
+      </div>
+      <div class="phases">
+        {
+          phases.map((p, i) => (
+            <article class="phase" data-reveal data-reveal-delay={i * 120}>
+              <div class="frame">
+                <Image src={p.image} alt={p.alt} widths={[400, 700]} sizes="(min-width: 960px) 33vw, 100vw" />
+              </div>
+              <div class="phase-body">
+                <p class="phase-period"><Icon name={p.icon} aria-hidden="true" /> {p.period}</p>
+                <h3>{p.title}</h3>
+                <p>{p.text}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container home-match">
+      <div data-reveal>
+        <p class="eyebrow eyebrow--left">Matchs à domicile</p>
+        <h2>Venez nous <span class="script">encourager</span></h2>
+        <p class="lead">
+          Nos matchs à domicile se jouent sur le terrain du <strong>{matchVenue.address}</strong>, {matchVenue.city}. Dates, adversaires et résultats sont publiés en temps réel
+          dans le calendrier du club.
+        </p>
+        <div class="btn-row">
+          <a href={site.kalisport.calendar} class="btn" target="_blank" rel="noopener">Prochains matchs</a>
+          <a href={matchVenue.map} class="link-arrow" target="_blank" rel="noopener">Itinéraire <Icon name="lucide:arrow-up-right" aria-hidden="true" /></a>
+        </div>
+      </div>
+      <ul class="match-facts" data-reveal data-reveal-delay="150">
+        <li><Icon name="lucide:calendar" aria-hidden="true" /><span><strong>Championnats</strong> jeunes, seniors D4 et softball SLD3</span></li>
+        <li><Icon name="lucide:map-pin" aria-hidden="true" /><span><strong>Terrain de match</strong> au SHAPE, Maisières</span></li>
+        <li><Icon name="lucide:users" aria-hidden="true" /><span><strong>Supporters bienvenus</strong> familles et curieux</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="b5-cup">
+    <div class="container cup">
+      <div class="cup-media" data-reveal="fade">
+        <div class="frame">
+          <Image src={b5Img} alt="Joueurs qui célèbrent une victoire" widths={[500, 900, 1200]} sizes="(min-width: 960px) 50vw, 100vw" />
+        </div>
+      </div>
+      <div class="cup-text" data-reveal>
+        <p class="eyebrow eyebrow--left">Événement</p>
+        <h2>The Guardians <span class="script">B5 Cup</span></h2>
+        <p class="lead">Le tournoi de Baseball 5 organisé par les Guardians : deux jours de compétition qui réunissent équipes nationales et clubs venus de toute l'Europe.</p>
+        <p>
+          Le Baseball 5, c'est la version urbaine du baseball : cinq joueurs par équipe, une simple balle frappée à la main, des manches express et un spectacle
+          permanent. Fair-play, ambiance et haut niveau garantis.
+        </p>
+        <ul class="cup-facts">
+          <li><strong>2</strong><span>jours de tournoi</span></li>
+          <li><strong>5</strong><span>joueurs par équipe</span></li>
+          <li><strong>EU</strong><span>équipes internationales</span></li>
+        </ul>
+        <p class="cup-address"><Icon name="lucide:map-pin" aria-hidden="true" /> {site.b5CupAddress}</p>
+        <div class="btn-row">
+          <a href="/contact" class="btn">Infos & inscriptions équipes</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Quote image={quoteBg} cite="Rendez-vous au bord du terrain">
+    Chaque week-end, <em>on joue ensemble</em>
+  </Quote>
+</BaseLayout>
+
+<style>
+  .hero-btns { margin-top: 2rem; }
+  .phases { display: grid; gap: clamp(1.5rem, 3vw, 2rem); }
+  @media (min-width: 960px) { .phases { grid-template-columns: repeat(3, 1fr); } }
+  .phase { background: var(--white); }
+  .phase .frame { aspect-ratio: 4 / 3; }
+  .phase-body { padding: 1.75rem; }
+  .phase-period { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-accent); font-size: 1.1rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--red-deep); margin-bottom: 0.6rem; }
+  .phase-period svg { width: 1.1rem; height: 1.1rem; }
+  .phase-body p:last-child { color: var(--muted); margin: 0; }
+
+  .home-match { display: grid; gap: clamp(2.5rem, 5vw, 5rem); align-items: center; }
+  @media (min-width: 960px) { .home-match { grid-template-columns: 1.2fr 0.8fr; } }
+  .home-match .lead { color: #d9d4cd; }
+  .home-match strong { color: var(--white); }
+  .match-facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: rgba(255, 255, 255, 0.12); }
+  .match-facts li { display: flex; gap: 1rem; align-items: center; background: var(--black); padding: 1.25rem 0; }
+  .match-facts svg { width: 1.6rem; height: 1.6rem; color: var(--red); flex-shrink: 0; }
+  .match-facts span { display: grid; }
+
+  .cup { display: grid; gap: clamp(2.5rem, 5vw, 5rem); align-items: center; }
+  @media (min-width: 960px) { .cup { grid-template-columns: 1fr 1fr; } }
+  .cup-media .frame { aspect-ratio: 4 / 4.4; }
+  .cup-facts { list-style: none; margin: 1.75rem 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); border-block: 1px solid var(--line); }
+  .cup-facts li { display: grid; text-align: center; padding: 1.1rem 0.5rem; }
+  .cup-facts li + li { border-left: 1px solid var(--line); }
+  .cup-facts strong { font-family: var(--font-display); font-size: 2rem; color: var(--red); line-height: 1.1; }
+  .cup-facts span { font-size: 0.8rem; color: var(--muted); }
+  .cup-address { display: flex; gap: 0.5rem; align-items: center; font-weight: 600; }
+  .cup-address svg { width: 1.2rem; height: 1.2rem; color: var(--red); }
+</style>

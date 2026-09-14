@@ -1,0 +1,114 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import logo from '../assets/logo-guardians.png';
+import { nav, site } from '../data/site';
+import { venues } from '../data/practical';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container top">
+    <div class="col brand">
+      <Image src={logo} alt="Logo des Guardians Binche" width={150} height={176} class="logo" />
+      <p>{site.fullName}<br />Matricule LFBBS {site.matricule} · depuis {site.founded}</p>
+      <ul class="social" aria-label="Réseaux sociaux">
+        {
+          site.social.map((s) => (
+            <li>
+              <a href={s.href} target="_blank" rel="noopener" aria-label={s.label}>
+                <Icon name={s.icon} aria-hidden="true" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="col">
+      <h2 class="title">Nos terrains</h2>
+      <ul class="venues">
+        {
+          venues.map((v) => (
+            <li>
+              <a href={v.map} target="_blank" rel="noopener">
+                <strong>{v.name}</strong>
+                <span>{v.address}, {v.city}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="col">
+      <h2 class="title">Le club</h2>
+      <ul class="links">
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href={site.kalisport.calendar} target="_blank" rel="noopener">Calendrier</a></li>
+        <li><a href={site.kalisport.login} target="_blank" rel="noopener">Espace membre</a></li>
+      </ul>
+    </div>
+
+    <div class="col">
+      <h2 class="title">Nous contacter</h2>
+      <ul class="contact">
+        <li>
+          <Icon name="lucide:mail" aria-hidden="true" />
+          <a href={`mailto:${site.emails.inscription}`}>{site.emails.inscription}</a>
+        </li>
+        <li>
+          <Icon name="lucide:phone" aria-hidden="true" />
+          <a href={`tel:+32${site.president.phone.replace(/\s/g, '').slice(1)}`}>{site.president.phone}</a>
+        </li>
+        <li>
+          <Icon name="lucide:message-square" aria-hidden="true" />
+          <a href="/contact">Formulaire de contact</a>
+        </li>
+      </ul>
+      <a href="/rejoindre#essai" class="btn">Essai gratuit</a>
+    </div>
+  </div>
+
+  <div class="container bottom">
+    <p>© {year} {site.name} — Tous droits réservés</p>
+    <p>
+      Photos d’illustration : <a href="https://unsplash.com/license" target="_blank" rel="noopener">Unsplash</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--black); color: #b9b2a9; padding-top: clamp(4rem, 8vw, 6rem); font-size: 0.95rem; border-top: 4px solid var(--red); }
+  .top { display: grid; gap: 3rem; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .top { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1080px) { .top { grid-template-columns: 1.3fr 1.2fr 0.8fr 1.1fr; } }
+
+  .logo { width: 110px; height: auto; margin-bottom: 1.25rem; }
+  .title { font-family: var(--font-accent); font-weight: 400; font-size: 1.3rem; letter-spacing: 0.08em; color: var(--white); margin-bottom: 1.4rem; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  a { text-decoration: none; transition: color 0.2s; }
+  a:hover { color: var(--white); }
+
+  .social { display: flex; gap: 0.6rem; }
+  .social a { display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border: 1px solid rgba(255, 255, 255, 0.2); transition: background 0.3s, border-color 0.3s; }
+  .social a:hover { background: var(--red); border-color: var(--red); }
+  .social svg { width: 1.1rem; height: 1.1rem; color: var(--white); }
+
+  .venues { display: grid; gap: 1rem; }
+  .venues a { display: grid; }
+  .venues strong { color: var(--white); font-weight: 600; }
+  .links { display: grid; gap: 0.5rem; }
+  .contact { display: grid; gap: 0.8rem; margin-bottom: 1.75rem; }
+  .contact li { display: flex; gap: 0.7rem; align-items: center; word-break: break-word; }
+  .contact svg { width: 1.1rem; height: 1.1rem; color: var(--red); flex-shrink: 0; }
+
+  .bottom {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem;
+    margin-top: clamp(3rem, 6vw, 4.5rem); padding-block: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.82rem;
+  }
+  .bottom p { margin: 0; }
+  .bottom a { text-decoration: underline; text-underline-offset: 3px; }
+</style>

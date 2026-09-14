@@ -1,0 +1,232 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+import heroImg from '../assets/images/price-balles.jpg';
+import videoPoster from '../assets/images/hero-terrain-marbre.jpg';
+import sponsorImg from '../assets/images/value-fairplay.jpg';
+
+const rules = [
+  {
+    icon: 'lucide:target',
+    title: "L'objectif",
+    intro: "Deux équipes de 9 joueurs s'affrontent. Celle qui marque le plus de points (runs) l'emporte.",
+    items: ["L'attaque frappe la balle pour pouvoir courir.", 'La défense tente d’éliminer les coureurs.', 'Un point est marqué après un tour complet des 4 bases.'],
+  },
+  {
+    icon: 'lucide:timer-off',
+    title: 'Le match',
+    intro: 'Pas de chronomètre : un match se joue en 9 manches (innings).',
+    items: ['Chaque équipe passe en attaque puis en défense à chaque manche.', 'On change de rôle quand la défense a éliminé 3 attaquants.'],
+  },
+  {
+    icon: 'lucide:swords',
+    title: 'Lanceur contre batteur',
+    intro: 'Le lanceur doit viser la « zone de strike ».',
+    items: ['Strike : le batteur rate ou laisse passer une bonne balle. 3 strikes = retrait.', 'Ball : lancer hors zone. 4 balls = le batteur avance en 1re base.'],
+  },
+  {
+    icon: 'lucide:hand',
+    title: 'Comment être « out » ?',
+    intro: 'La défense peut éliminer un attaquant de trois façons :',
+    items: ['De volée : la balle frappée est attrapée avant de toucher le sol.', 'Au toucher : le coureur est touché avec la balle.', 'À la course : la balle arrive à la base avant le coureur.'],
+  },
+];
+---
+
+<BaseLayout title="Documents" description="Règles du baseball en 5 minutes, informations dopage, dossier sponsoring et formulaire de licence des Guardians Binche.">
+  <PageHero
+    eyebrow="Documents"
+    title="Tout savoir"
+    script="avant de jouer"
+    intro="Les règles du jeu expliquées simplement, les documents officiels et nos propositions de partenariat."
+    image={heroImg}
+    imageAlt="Balles de baseball posées dans l'herbe"
+  />
+
+  <nav class="doc-nav container" aria-label="Rubriques">
+    <a href="#regles" class="doc-link" data-reveal><Icon name="lucide:book-open" aria-hidden="true" /><span>Le baseball en 5 min</span></a>
+    <a href="#licence" class="doc-link" data-reveal data-reveal-delay="80"><Icon name="lucide:file-text" aria-hidden="true" /><span>Demande de licence</span></a>
+    <a href="#dopage" class="doc-link" data-reveal data-reveal-delay="160"><Icon name="lucide:pill" aria-hidden="true" /><span>Dopage</span></a>
+    <a href="#sponsoring" class="doc-link" data-reveal data-reveal-delay="240"><Icon name="lucide:handshake" aria-hidden="true" /><span>Sponsoring</span></a>
+  </nav>
+
+  <!-- Règles -->
+  <section class="section" id="regles">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Le baseball en 5 minutes</p>
+        <h2>Les règles <span class="script">en un clin d'œil</span></h2>
+        <p>Les bases du sport collectif le plus stratégique au monde.</p>
+      </div>
+
+      <div class="video" data-reveal>
+        <button type="button" class="video-facade" data-video={site.rulesVideo} aria-label="Lire la vidéo : résumé des règles du baseball (YouTube)">
+          <Image src={videoPoster} alt="" widths={[640, 1100]} sizes="(min-width: 900px) 860px, 100vw" />
+          <span class="play" aria-hidden="true"><Icon name="lucide:play" /></span>
+          <span class="video-label">Résumé vidéo des règles</span>
+        </button>
+      </div>
+
+      <div class="rules">
+        {
+          rules.map((r, i) => (
+            <article data-reveal data-reveal-delay={i * 90}>
+              <Icon name={r.icon} aria-hidden="true" />
+              <h3>{r.title}</h3>
+              <p>{r.intro}</p>
+              <ul>
+                {r.items.map((item) => <li>{item}</li>)}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Licence -->
+  <section class="section section--sand" id="licence">
+    <div class="container container--narrow licence" data-reveal>
+      <Icon name="lucide:file-text" class="licence-icon" aria-hidden="true" />
+      <div>
+        <p class="eyebrow eyebrow--left">Inscription</p>
+        <h2>Demande de licence</h2>
+        <p>
+          Le formulaire de demande de licence (certificat médical inclus) est à compléter chaque saison, puis à renvoyer avec une photo d'identité à
+          <a href={`mailto:${site.emails.inscription}`}>{site.emails.inscription}</a>.
+        </p>
+        <div class="btn-row">
+          <a href={site.files.licence} class="btn" target="_blank" rel="noopener"><Icon name="lucide:download" aria-hidden="true" /> Formulaire 2026 (PDF)</a>
+          <a href="/rejoindre#inscription" class="link-arrow">Les 4 étapes d'inscription <Icon name="lucide:arrow-right" aria-hidden="true" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dopage -->
+  <section class="section" id="dopage">
+    <div class="container dopage">
+      <div data-reveal>
+        <p class="eyebrow eyebrow--left">Santé & éthique</p>
+        <h2>Dopage</h2>
+        <p class="lead">Chaque joueur est responsable du respect des règles antidopage, y compris pour les médicaments prescrits.</p>
+        <p>
+          Tout sportif, mineur ou majeur, amateur ou non, peut être soumis à un contrôle, en compétition comme à l'entraînement. En cas de traitement médical, parlez-en à
+          votre médecin et vérifiez le caractère éventuellement dopant du médicament.
+        </p>
+      </div>
+      <ol class="dopage-steps" data-reveal data-reveal-delay="120">
+        <li>
+          <h3>Vérifier un médicament</h3>
+          <p>La base de données du Centre Belge d'Information Pharmacothérapeutique signale les substances dopantes par le sigle « D ».</p>
+          <a href="https://www.cbip.be" class="link-arrow" target="_blank" rel="noopener">cbip.be <Icon name="lucide:arrow-up-right" aria-hidden="true" /></a>
+        </li>
+        <li>
+          <h3>Demander une AUT</h3>
+          <p>Si un traitement contient une substance interdite, une Autorisation d'Usage à des fins Thérapeutiques doit être demandée. La procédure dépend de votre statut ADEPS.</p>
+          <a href={site.files.aut} class="link-arrow" target="_blank" rel="noopener">Formulaire AUT (PDF) <Icon name="lucide:arrow-up-right" aria-hidden="true" /></a>
+        </li>
+        <li>
+          <h3>Un doute ?</h3>
+          <p>L'organisation antidopage de la Fédération Wallonie-Bruxelles répond à vos questions.</p>
+          <a href="mailto:aut@cfwb.be" class="link-arrow">aut@cfwb.be</a>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Sponsoring -->
+  <section class="section section--dark" id="sponsoring">
+    <div class="container sponsor">
+      <div class="frame sponsor-img" data-reveal="fade">
+        <Image src={sponsorImg} alt="Équipe de baseball alignée sur le terrain" widths={[500, 900]} sizes="(min-width: 960px) 45vw, 100vw" />
+      </div>
+      <div data-reveal>
+        <p class="eyebrow eyebrow--left">Partenariats</p>
+        <h2>Sponsoring <span class="script">& team building</span></h2>
+        <p class="lead">Associez votre entreprise à un club jeune, dynamique et ancré dans la région du Centre.</p>
+        <p>
+          Visibilité sur nos tenues et nos événements, soutien à la formation des jeunes, ou journée team building autour du baseball pour vos équipes : découvrez nos
+          formules dans le dossier de sponsoring.
+        </p>
+        <div class="btn-row">
+          <a href={site.files.sponsoring} class="btn" target="_blank" rel="noopener"><Icon name="lucide:download" aria-hidden="true" /> Dossier sponsoring</a>
+          <a href={site.files.teamBuilding} class="btn btn--light" target="_blank" rel="noopener">Projet team building</a>
+        </div>
+        <p class="sponsor-contact">Contact sponsoring : Cédric Peetroons · <a href="tel:+32496742942">0496 74 29 42</a></p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .doc-nav { display: grid; gap: 1px; grid-template-columns: repeat(2, 1fr); margin-top: -3rem; position: relative; z-index: 2; }
+  @media (min-width: 900px) { .doc-nav { grid-template-columns: repeat(4, 1fr); } }
+  .doc-link {
+    display: flex; align-items: center; gap: 0.9rem; padding: 1.5rem; background: var(--white); text-decoration: none;
+    font-family: var(--font-accent); font-size: 1.15rem; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--black);
+    box-shadow: 0 12px 30px rgba(20, 20, 20, 0.08); transition: background 0.3s, color 0.3s;
+  }
+  .doc-link svg { width: 1.6rem; height: 1.6rem; color: var(--red); flex-shrink: 0; transition: color 0.3s; }
+  .doc-link span { min-width: 0; }
+  @media (max-width: 560px) { .doc-link { padding: 1rem; gap: 0.6rem; font-size: 1rem; letter-spacing: 0.04em; } .doc-link svg { width: 1.25rem; height: 1.25rem; } }
+  .doc-link:hover { background: var(--red); color: var(--white); }
+  .doc-link:hover svg { color: var(--white); }
+
+  .video { max-width: 860px; margin: 0 auto clamp(3rem, 6vw, 4.5rem); }
+  .video-facade { position: relative; display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0; cursor: pointer; overflow: hidden; background: var(--black); }
+  .video-facade img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: opacity 0.4s, transform 1s var(--ease); }
+  .video-facade:hover img { opacity: 0.55; transform: scale(1.03); }
+  .play { position: absolute; inset: 0; margin: auto; width: 5.5rem; height: 5.5rem; border-radius: 50%; background: var(--red); color: var(--white); display: grid; place-items: center; transition: transform 0.3s var(--ease); }
+  .play svg { width: 2rem; height: 2rem; margin-left: 0.25rem; fill: currentColor; }
+  .video-facade:hover .play { transform: scale(1.08); }
+  .video-label { position: absolute; left: 1.5rem; bottom: 1.25rem; color: var(--white); font-family: var(--font-accent); font-size: 1.25rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .video iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; display: block; }
+
+  .rules { display: grid; gap: 1.25rem; }
+  @media (min-width: 700px) { .rules { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .rules { grid-template-columns: repeat(4, 1fr); } }
+  .rules article { background: var(--white); padding: 2rem 1.75rem; border-top: 3px solid var(--red); }
+  .rules svg { width: 2rem; height: 2rem; color: var(--red); margin-bottom: 1rem; }
+  .rules h3 { font-size: 1.05rem; }
+  .rules p { font-weight: 600; color: var(--black); font-size: 0.97rem; }
+  .rules ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.5rem; color: var(--muted); font-size: 0.95rem; }
+  .rules li::marker { color: var(--red); }
+
+  .licence { display: flex; gap: clamp(1.5rem, 4vw, 3rem); align-items: flex-start; }
+  .licence-icon { width: 4rem; height: 4rem; color: var(--red); flex-shrink: 0; }
+  .licence a:not(.btn):not(.link-arrow) { color: var(--red-deep); font-weight: 600; }
+  @media (max-width: 560px) { .licence { flex-direction: column; } }
+
+  .dopage { display: grid; gap: clamp(2.5rem, 5vw, 5rem); }
+  @media (min-width: 960px) { .dopage { grid-template-columns: 1fr 1fr; } }
+  .dopage-steps { list-style: none; margin: 0; padding: 0; counter-reset: dop; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .dopage-steps li { background: var(--paper); padding: 1.75rem 1.75rem 1.5rem 4.5rem; position: relative; counter-increment: dop; }
+  .dopage-steps li::before { content: counter(dop); position: absolute; left: 1.5rem; top: 1.25rem; font-family: var(--font-script); font-size: 2.4rem; color: var(--red); line-height: 1; }
+  .dopage-steps h3 { font-size: 1rem; margin-bottom: 0.4rem; }
+  .dopage-steps p { color: var(--muted); font-size: 0.95rem; margin-bottom: 0.5rem; }
+
+  .sponsor { display: grid; gap: clamp(2.5rem, 5vw, 5rem); align-items: center; }
+  @media (min-width: 960px) { .sponsor { grid-template-columns: 0.9fr 1fr; } }
+  .sponsor-img { aspect-ratio: 4 / 3.6; }
+  .sponsor .lead { color: #d9d4cd; }
+  .sponsor .script { color: var(--red); }
+  .sponsor-contact { margin-top: 1.75rem; font-size: 0.95rem; color: #b9b2a9; }
+  .sponsor-contact a { color: var(--white); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-video]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${btn.dataset.video}?autoplay=1&rel=0`;
+      iframe.title = 'Résumé vidéo des règles du baseball';
+      iframe.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      btn.replaceWith(iframe);
+    });
+  });
+</script>

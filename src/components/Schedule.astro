@@ -1,0 +1,81 @@
+---
+import { Icon } from 'astro-icon/components';
+import { winterSchedule, summerSchedule } from '../data/practical';
+---
+
+<div class="schedule">
+  <article class="season summer" data-reveal>
+    <header>
+      <Icon name="lucide:sun" aria-hidden="true" />
+      <div>
+        <h3>{summerSchedule.title}</h3>
+        <p class="period">{summerSchedule.period}</p>
+      </div>
+    </header>
+    <p class="intro">{summerSchedule.intro}</p>
+    <dl>
+      {
+        summerSchedule.days.map((d) => (
+          <div class="day">
+            <dt>{d.day}</dt>
+            <dd>
+              <ul>
+                {d.sessions.map((s) => (
+                  <li><span>{s.team}</span><time>{s.time}</time></li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </article>
+
+  <article class="season winter" data-reveal data-reveal-delay="120">
+    <header>
+      <Icon name="lucide:snowflake" aria-hidden="true" />
+      <div>
+        <h3>{winterSchedule.title}</h3>
+        <p class="period">{winterSchedule.period}</p>
+      </div>
+    </header>
+    <p class="intro">{winterSchedule.intro}</p>
+    <ul class="sessions">
+      {
+        winterSchedule.sessions.map((s) => (
+          <li>
+            <div class="row"><span class="team">{s.team}</span><time>{s.day} · {s.time}</time></div>
+            <div class="meta">RDV {s.meet} · {s.place}</div>
+          </li>
+        ))
+      }
+    </ul>
+  </article>
+</div>
+
+<style>
+  .schedule { display: grid; gap: clamp(1.25rem, 3vw, 2rem); }
+  @media (min-width: 900px) { .schedule { grid-template-columns: 1fr 1fr; } }
+  .season { background: var(--white); padding: clamp(1.75rem, 4vw, 2.75rem); border-top: 3px solid var(--red); }
+  .winter { background: var(--black); color: #d9d4cd; border-top-color: var(--white); }
+  .winter h3 { color: var(--white); }
+  header { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+  header svg { width: 2.4rem; height: 2.4rem; color: var(--red); flex-shrink: 0; }
+  .winter header svg { color: var(--white); }
+  h3 { margin: 0; }
+  .period { margin: 0; font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .winter .period { color: #a39c93; }
+  .intro { color: var(--muted); }
+  .winter .intro { color: #b9b2a9; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  dl { margin: 0; }
+  .day { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1rem; padding-block: 0.9rem; border-top: 1px solid var(--line); }
+  dt { font-family: var(--font-accent); font-weight: 400; font-size: 1.15rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--red-deep); padding-top: 0.15rem; }
+  dd { margin: 0; }
+  dd li, .row { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  time { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+  .sessions li { padding-block: 0.9rem; border-top: 1px solid rgba(255, 255, 255, 0.12); }
+  .team { color: var(--white); font-weight: 600; }
+  .meta { font-size: 0.88rem; color: #a39c93; }
+  @media (max-width: 420px) { .day { grid-template-columns: 1fr; gap: 0.25rem; } }
+</style>

@@ -1,0 +1,148 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { teams } from '../data/teams';
+import heroImg from '../assets/images/gallery-lanceur.jpg';
+---
+
+<BaseLayout title="Nos équipes" description="Peanuts, Minimes U12, Cadets U15, Seniors, Baseball 5, Slowpitch et Softball : découvrez les 7 équipes des Guardians Binche.">
+  <PageHero
+    eyebrow="Nos équipes"
+    title="Sept équipes,"
+    script="une seule famille"
+    intro="De 5 ans à l'âge adulte, en compétition ou pour le plaisir : chaque profil trouve sa place chez les Guardians."
+    image={heroImg}
+    imageAlt="Lanceur de baseball sur le monticule"
+  />
+
+  <nav class="team-nav" aria-label="Accès rapide aux équipes">
+    <div class="container">
+      <ul>
+        {teams.map((t) => <li><a href={`#${t.id}`}>{t.name}</a></li>)}
+      </ul>
+    </div>
+  </nav>
+
+  {
+    teams.map((team, i) => (
+      <section class:list={['section team', { 'section--sand': i % 2 === 1 }]} id={team.id}>
+        <div class:list={['container team-grid', { reverse: i % 2 === 1 }]}>
+          <div class="team-media" data-reveal="fade">
+            <div class="frame">
+              <Image src={team.image} alt={team.imageAlt} widths={[500, 900, 1200]} sizes="(min-width: 960px) 50vw, 100vw" />
+            </div>
+            <span class="age-tag">{team.age}</span>
+          </div>
+
+          <div class="team-text" data-reveal>
+            <p class="eyebrow eyebrow--left">{team.label}</p>
+            <h2>{team.name}</h2>
+            <p class="births">{team.births}</p>
+            <p class="lead">{team.intro}</p>
+            <ul class="points">
+              {team.points.map((p) => (
+                <li><Icon name="lucide:check" aria-hidden="true" />{p}</li>
+              ))}
+            </ul>
+
+            <dl class="facts">
+              <div>
+                <dt><Icon name="lucide:sun" aria-hidden="true" /> Été</dt>
+                <dd>{team.summer}</dd>
+              </div>
+              <div>
+                <dt><Icon name="lucide:snowflake" aria-hidden="true" /> Hiver</dt>
+                <dd>{team.winter}</dd>
+              </div>
+              <div>
+                <dt><Icon name="lucide:user-round" aria-hidden="true" /> Coach</dt>
+                <dd>{team.coach}</dd>
+              </div>
+              {team.price && (
+                <div>
+                  <dt><Icon name="lucide:shirt" aria-hidden="true" /> Cotisation</dt>
+                  <dd>{team.price} / saison</dd>
+                </div>
+              )}
+            </dl>
+
+            <div class="btn-row">
+              <a href="/rejoindre#essai" class="btn">Essayer gratuitement</a>
+              <a href="/rejoindre#entrainements" class="link-arrow">Tous les horaires <Icon name="lucide:arrow-right" aria-hidden="true" /></a>
+            </div>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="section section--dark">
+    <div class="container container--narrow faq" data-reveal>
+      <p class="eyebrow">Pas sûr de ta catégorie ?</p>
+      <h2>On te guide <span class="script">volontiers</span></h2>
+      <p class="lead">Indique ton année de naissance dans le formulaire d'essai : nous te proposons l'équipe adaptée. Filles et garçons s'entraînent ensemble chez les jeunes.</p>
+      <div class="btn-row">
+        <a href="/rejoindre#essai" class="btn">Réserver un essai</a>
+        <a href="/contact" class="btn btn--light">Poser une question</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .team-nav { position: sticky; top: var(--header-h); z-index: 20; background: var(--black); }
+  .team-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.25rem; overflow-x: auto; scrollbar-width: none; }
+  .team-nav a {
+    display: block; padding: 1rem 1.1rem; white-space: nowrap; text-decoration: none; color: #d9d4cd;
+    font-family: var(--font-accent); font-size: 1.1rem; font-weight: 400; letter-spacing: 0.07em; text-transform: uppercase;
+    border-bottom: 3px solid transparent; transition: color 0.2s, border-color 0.2s;
+  }
+  .team-nav a:hover, .team-nav a.is-active { color: var(--white); border-bottom-color: var(--red); }
+
+  .team { scroll-margin-top: calc(var(--header-h) + 3.5rem); }
+  .team-grid { display: grid; gap: clamp(2.5rem, 5vw, 5rem); align-items: center; }
+  @media (min-width: 960px) {
+    .team-grid { grid-template-columns: 1fr 1fr; }
+    .team-grid.reverse .team-media { order: 2; }
+  }
+  .team-media { position: relative; }
+  .team-media .frame { aspect-ratio: 4 / 4.6; }
+  .age-tag {
+    position: absolute; left: 0; bottom: 2rem; background: var(--red); color: var(--white);
+    font-family: var(--font-accent); font-size: 1.2rem; font-weight: 400; letter-spacing: 0.07em; text-transform: uppercase; padding: 0.75rem 1.25rem;
+  }
+  .reverse .age-tag { left: auto; right: 0; }
+  .team-text h2 { margin-bottom: 0.2rem; font-size: clamp(2.2rem, 1.6rem + 2.4vw, 3.6rem); }
+  .births { font-family: var(--font-script); font-size: 1.7rem; color: var(--red); margin-bottom: 1.25rem; line-height: 1.2; }
+  .points { list-style: none; padding: 0; margin: 0 0 1.75rem; display: grid; gap: 0.5rem; }
+  .points li { display: flex; gap: 0.7rem; align-items: flex-start; }
+  .points svg { width: 1.2rem; height: 1.2rem; color: var(--red); margin-top: 0.3rem; flex-shrink: 0; }
+
+  .facts { margin: 0 0 2rem; display: grid; border-top: 1px solid var(--line); }
+  .facts div { display: grid; grid-template-columns: 8.5rem 1fr; gap: 1rem; padding-block: 0.8rem; border-bottom: 1px solid var(--line); }
+  .facts dt { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-accent); font-size: 1.05rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+  .facts dt svg { width: 1rem; height: 1rem; color: var(--red); }
+  .facts dd { margin: 0; font-weight: 600; color: var(--black); }
+  @media (max-width: 480px) { .facts div { grid-template-columns: 1fr; gap: 0.15rem; } }
+
+  .faq { text-align: center; }
+  .faq .btn-row { justify-content: center; margin-top: 2rem; }
+  .faq .lead { color: #d9d4cd; }
+</style>
+
+<script>
+  const links = document.querySelectorAll<HTMLAnchorElement>('.team-nav a');
+  const sections = [...links].map((a) => document.querySelector<HTMLElement>(a.hash)!);
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        links.forEach((a) => a.classList.toggle('is-active', a.hash === `#${entry.target.id}`));
+      });
+    },
+    { rootMargin: '-45% 0px -50% 0px' },
+  );
+  sections.forEach((s) => s && io.observe(s));
+</script>

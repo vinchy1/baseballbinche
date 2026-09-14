@@ -1,0 +1,100 @@
+---
+import { site } from '../data/site';
+import { pricing } from '../data/practical';
+
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+const action = site.formspree.trial ? `https://formspree.io/f/${site.formspree.trial}` : '';
+const uid = compact ? 'trial-c' : 'trial';
+const thisYear = new Date().getFullYear();
+---
+
+<form
+  class:list={['trial-form', { compact }]}
+  action={action}
+  method="POST"
+  data-form
+  data-mailto={site.emails.inscription}
+  data-subject="Demande d'entraînement d'essai"
+>
+  <div class="form-grid">
+    <div class="field">
+      <label for={`${uid}-prenom`}>Prénom du joueur *</label>
+      <input id={`${uid}-prenom`} name="prenom" autocomplete="given-name" required />
+    </div>
+    <div class="field">
+      <label for={`${uid}-nom`}>Nom *</label>
+      <input id={`${uid}-nom`} name="nom" autocomplete="family-name" required />
+    </div>
+    <div class="field">
+      <label for={`${uid}-annee`}>Année de naissance *</label>
+      <input id={`${uid}-annee`} name="annee_naissance" type="number" inputmode="numeric" min="1940" max={thisYear} required data-birth />
+    </div>
+    <div class="field">
+      <label for={`${uid}-categorie`}>Catégorie souhaitée</label>
+      <select id={`${uid}-categorie`} name="categorie" data-category>
+        <option value="">— À déterminer —</option>
+        {pricing.map((p) => <option value={p.category}>{p.category}</option>)}
+        <option value="Baseball 5">Baseball 5</option>
+        <option value="Slowpitch">Slowpitch</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for={`${uid}-email`}>E-mail *</label>
+      <input id={`${uid}-email`} name="email" type="email" autocomplete="email" required />
+    </div>
+    <div class="field">
+      <label for={`${uid}-tel`}>Téléphone</label>
+      <input id={`${uid}-tel`} name="telephone" type="tel" autocomplete="tel" />
+    </div>
+    {
+      !compact && (
+        <div class="field span-2">
+          <label for={`${uid}-message`}>Un mot sur toi (expérience, questions…)</label>
+          <textarea id={`${uid}-message`} name="message" />
+        </div>
+      )
+    }
+    <div class="field field--check span-2">
+      <input id={`${uid}-rgpd`} name="consentement" type="checkbox" value="oui" required />
+      <label for={`${uid}-rgpd`}>J'accepte que le club utilise ces informations pour me recontacter au sujet de l'essai. Pour un mineur, la demande est faite par un parent.</label>
+    </div>
+    <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+  </div>
+  <div class="submit-row">
+    <button type="submit" class="btn">Réserver mon essai gratuit</button>
+    <p class="form-note">Matériel prêté · aucun engagement</p>
+  </div>
+  <p class="form-status" role="status" aria-live="polite" data-status></p>
+</form>
+
+<style>
+  .submit-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 1.75rem; }
+  .submit-row .form-note { margin: 0; }
+</style>
+
+<script>
+  import { initForms } from '../scripts/forms';
+  import { pricing } from '../data/practical';
+
+  initForms();
+
+  // Suggestion de catégorie selon l'année de naissance.
+  document.querySelectorAll<HTMLFormElement>('.trial-form').forEach((form) => {
+    const birth = form.querySelector<HTMLInputElement>('[data-birth]');
+    const select = form.querySelector<HTMLSelectElement>('[data-category]');
+    if (!birth || !select) return;
+    birth.addEventListener('change', () => {
+      const year = Number(birth.value);
+      if (!year) return;
+      const match = pricing.find((p) => {
+        const nums = p.births.match(/\d{4}/g)?.map(Number) ?? [];
+        return nums.length === 2 ? year >= nums[0] && year <= nums[1] : year <= nums[0];
+      });
+      if (match && !select.dataset.touched) select.value = match.category;
+    });
+    select.addEventListener('change', () => (select.dataset.touched = '1'));
+  });
+</script>

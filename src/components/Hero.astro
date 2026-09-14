@@ -1,0 +1,143 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  slides: { src: ImageMetadata; alt: string }[];
+}
+const { slides } = Astro.props;
+---
+
+<section class="hero on-image" data-hero aria-label="Bienvenue chez les Guardians">
+  <div class="slides" aria-hidden="true">
+    {
+      slides.map((slide, i) => (
+        <div class:list={['slide', { 'is-active': i === 0 }]}>
+          <Image
+            src={slide.src}
+            alt={slide.alt}
+            widths={[768, 1280, 1920]}
+            sizes="100vw"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            fetchpriority={i === 0 ? 'high' : 'auto'}
+          />
+        </div>
+      ))
+    }
+  </div>
+  <div class="shade" aria-hidden="true"></div>
+
+  <div class="content container">
+    <p class="eyebrow">Baseball · Softball · Slowpitch · Binche</p>
+    <h1>
+      Ta place est
+      <span class="script">sur le terrain</span>
+    </h1>
+    <p class="intro">Filles et garçons dès 5 ans, adultes débutants ou confirmés : viens tester le baseball avec les Guardians.</p>
+    <div class="btn-row">
+      <a href="/rejoindre#essai" class="btn">3 entraînements gratuits</a>
+      <a href="/equipes" class="btn btn--light">Découvrir les équipes</a>
+    </div>
+  </div>
+
+  <div class="dots container" role="group" aria-label="Choisir la photo">
+    {
+      slides.map((_, i) => (
+        <button type="button" class:list={['dot', { 'is-active': i === 0 }]} data-dot={i} aria-label={`Photo ${i + 1}`} aria-pressed={i === 0 ? 'true' : 'false'} />
+      ))
+    }
+  </div>
+
+  <a href="#decouvrir" class="scroll-cue" aria-label="Défiler vers le contenu">
+    <Icon name="lucide:chevron-down" aria-hidden="true" />
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative; min-height: clamp(36rem, 100svh, 60rem); display: grid; align-items: end;
+    color: var(--white); overflow: hidden; background: var(--black);
+  }
+  .slides, .slide, .shade { position: absolute; inset: 0; }
+  .slide { opacity: 0; transition: opacity 1.6s ease; }
+  .slide.is-active { opacity: 1; }
+  .slide img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); }
+  .slide.is-active img { animation: kenburns 9s ease-out forwards; }
+  @keyframes kenburns { from { transform: scale(1.08); } to { transform: scale(1); } }
+  .shade {
+    background:
+      linear-gradient(90deg, rgba(10, 10, 10, 0.72) 0%, rgba(10, 10, 10, 0.25) 60%, rgba(10, 10, 10, 0.1) 100%),
+      linear-gradient(0deg, rgba(10, 10, 10, 0.6) 0%, transparent 45%);
+  }
+
+  .content { position: relative; padding-top: calc(var(--header-h) + 3rem); padding-bottom: clamp(7rem, 16vh, 10rem); }
+  h1 { color: var(--white); max-width: 14ch; margin-bottom: 1.5rem; text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35); }
+  h1 .script { font-size: 1.35em; color: var(--white); margin-top: 0.1em; }
+  h1 .script::after {
+    content: ''; display: block; width: 5.5rem; height: 4px; background: var(--red); margin-top: 1.1rem;
+  }
+  .intro { max-width: 34rem; font-size: 1.2rem; color: rgba(255, 255, 255, 0.92); margin-bottom: 2.25rem; }
+
+  .content > * { animation: rise 1.1s var(--ease) both; }
+  .content > *:nth-child(2) { animation-delay: 0.12s; }
+  .content > *:nth-child(3) { animation-delay: 0.24s; }
+  .content > *:nth-child(4) { animation-delay: 0.36s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+  .dots { position: absolute; left: 0; right: 0; bottom: 2.5rem; display: flex; gap: 0.6rem; margin-inline: auto; }
+  .dot { width: 2.5rem; height: 1.5rem; padding: 0; border: 0; background: none; cursor: pointer; position: relative; }
+  .dot::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: rgba(255, 255, 255, 0.4); transition: background 0.3s; }
+  .dot.is-active::before, .dot:hover::before { background: var(--white); }
+  .dot.is-active::after { content: ''; position: absolute; left: 0; top: 50%; height: 2px; width: 100%; background: var(--red); transform-origin: left; animation: progress 6s linear forwards; }
+  @keyframes progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  .scroll-cue {
+    position: absolute; right: var(--gutter); bottom: 2rem; display: grid; place-items: center;
+    width: 3rem; height: 3rem; border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 50%; color: var(--white);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .scroll-cue:hover { background: var(--red); border-color: var(--red); }
+  .scroll-cue svg { width: 1.3rem; height: 1.3rem; animation: bob 2s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(4px); } }
+
+  @media (max-width: 640px) {
+    .shade { background: linear-gradient(0deg, rgba(10, 10, 10, 0.85) 0%, rgba(10, 10, 10, 0.35) 70%, rgba(10, 10, 10, 0.45) 100%); }
+    .scroll-cue { display: none; }
+    .btn-row .btn { width: 100%; }
+  }
+</style>
+
+<script>
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (hero) {
+    const slides = hero.querySelectorAll<HTMLElement>('.slide');
+    const dots = hero.querySelectorAll<HTMLButtonElement>('[data-dot]');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+    let timer: number | undefined;
+
+    const show = (index: number) => {
+      slides[current].classList.remove('is-active');
+      dots[current].classList.remove('is-active');
+      dots[current].setAttribute('aria-pressed', 'false');
+      current = (index + slides.length) % slides.length;
+      slides[current].classList.add('is-active');
+      dots[current].classList.add('is-active');
+      dots[current].setAttribute('aria-pressed', 'true');
+    };
+    const start = () => {
+      if (reduced) return;
+      window.clearInterval(timer);
+      timer = window.setInterval(() => show(current + 1), 6000);
+    };
+    dots.forEach((dot) =>
+      dot.addEventListener('click', () => {
+        show(Number(dot.dataset.dot));
+        start();
+      }),
+    );
+    document.addEventListener('visibilitychange', () => (document.hidden ? window.clearInterval(timer) : start()));
+    start();
+  }
+</script>

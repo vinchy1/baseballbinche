@@ -1,0 +1,123 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../data/site';
+import { committee, coaches } from '../data/people';
+import heroImg from '../assets/images/page-contact.jpg';
+
+const tel = (phone: string) => `tel:+32${phone.replace(/\s/g, '').slice(1)}`;
+const keyContacts = committee.filter((p) => p.phone);
+---
+
+<BaseLayout title="Contact" description="Contactez le comité et les coaches des Guardians Binche : téléphone, e-mail et formulaire de contact.">
+  <PageHero
+    eyebrow="Contact"
+    title="Parlons"
+    script="baseball"
+    intro="Une question sur les entraînements, une inscription, un partenariat ? Le comité et les coaches vous répondent."
+    image={heroImg}
+    imageAlt="Marbre et lignes blanches d'un terrain de baseball"
+  />
+
+  <section class="section">
+    <div class="container contact-grid">
+      <div class="contact-info" data-reveal>
+        <p class="eyebrow eyebrow--left">Nous joindre</p>
+        <h2>Le plus simple ? <span class="script">Passez nous voir</span></h2>
+        <p class="lead">Notre équipe est à votre disposition lors des entraînements. Vous pouvez aussi nous écrire ou appeler directement la bonne personne.</p>
+
+        <ul class="quick">
+          <li>
+            <Icon name="lucide:mail" aria-hidden="true" />
+            <div><span>Inscriptions</span><a href={`mailto:${site.emails.inscription}`}>{site.emails.inscription}</a></div>
+          </li>
+          {
+            keyContacts.map((p) => (
+              <li>
+                <Icon name="lucide:phone" aria-hidden="true" />
+                <div><span>{p.role} · {p.name}</span><a href={tel(p.phone!)}>{p.phone}</a></div>
+              </li>
+            ))
+          }
+        </ul>
+
+        <ul class="social" aria-label="Réseaux sociaux">
+          {
+            site.social.map((s) => (
+              <li>
+                <a href={s.href} target="_blank" rel="noopener">
+                  <Icon name={s.icon} aria-hidden="true" /> {s.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="contact-card" data-reveal data-reveal-delay="120">
+        <h3>Écrivez-nous</h3>
+        <p class="form-note">Choisissez le destinataire : votre message arrive directement à la bonne personne.</p>
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Les coaches</p>
+        <h2>Une question <span class="script">sportive ?</span></h2>
+        <p>Contactez directement le coach de la catégorie qui vous intéresse.</p>
+      </div>
+      <ul class="coaches">
+        {
+          coaches.map((c, i) => (
+            <li data-reveal data-reveal-delay={(i % 4) * 80}>
+              <p class="c-role">{c.role}</p>
+              <p class="c-name">{c.name}</p>
+              {c.phone ? (
+                <a href={tel(c.phone)} class="c-phone"><Icon name="lucide:phone" aria-hidden="true" /> {c.phone}</a>
+              ) : (
+                <span class="c-phone muted">Contact via le club</span>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+      <p class="more" data-reveal><a href="/club#organigramme" class="link-arrow">Tout l'organigramme <Icon name="lucide:arrow-right" aria-hidden="true" /></a></p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-grid { display: grid; gap: clamp(2.5rem, 5vw, 4.5rem); align-items: start; }
+  @media (min-width: 960px) { .contact-grid { grid-template-columns: 0.85fr 1.15fr; } }
+  .quick { list-style: none; margin: 2rem 0; padding: 0; display: grid; border-top: 1px solid var(--line); }
+  .quick li { display: flex; gap: 1rem; align-items: center; padding-block: 1rem; border-bottom: 1px solid var(--line); }
+  .quick svg { width: 1.4rem; height: 1.4rem; color: var(--red); flex-shrink: 0; }
+  .quick div { display: grid; min-width: 0; }
+  .quick span { font-size: 0.82rem; color: var(--muted); }
+  .quick a { font-weight: 600; color: var(--black); text-decoration: none; word-break: break-word; }
+  .quick a:hover { color: var(--red-deep); }
+
+  .social { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .social a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1rem; border: 1px solid var(--line); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: background 0.3s, color 0.3s, border-color 0.3s; }
+  .social a:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+  .social svg { width: 1.1rem; height: 1.1rem; }
+
+  .contact-card { background: var(--white); padding: clamp(1.5rem, 4vw, 3rem); border-top: 4px solid var(--red); box-shadow: 0 24px 60px rgba(20, 20, 20, 0.08); }
+  .contact-card h3 { margin-bottom: 0.3rem; }
+  .contact-card > .form-note { margin-bottom: 1.75rem; }
+
+  .coaches { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
+  .coaches li { background: var(--paper); padding: 1.75rem; }
+  .c-role { font-family: var(--font-accent); font-size: 1.05rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--red-deep); margin-bottom: 0.3rem; }
+  .c-name { font-family: var(--font-display); font-weight: 400; font-size: 1.1rem; color: var(--black); margin-bottom: 0.75rem; line-height: 1.3; }
+  .c-phone { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; text-decoration: none; }
+  .c-phone svg { width: 1rem; height: 1rem; color: var(--red); }
+  a.c-phone:hover { color: var(--red-deep); }
+  .muted { color: var(--muted); font-weight: 400; font-size: 0.92rem; }
+  .more { text-align: center; margin-top: 2.5rem; }
+</style>

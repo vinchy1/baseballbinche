@@ -1,0 +1,354 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Quote from '../components/Quote.astro';
+import Gallery from '../components/Gallery.astro';
+import TrialForm from '../components/TrialForm.astro';
+import { site } from '../data/site';
+import { values } from '../data/club';
+
+import heroBatter from '../assets/images/hero-frappeur-rouge.jpg';
+import heroField from '../assets/images/hero-terrain-marbre.jpg';
+import heroTeam from '../assets/images/hero-equipe-celebration.jpg';
+import heroKids from '../assets/images/hero-jeunes-match.jpg';
+import introKids from '../assets/images/intro-jeunes-entrainement.jpg';
+import introBoys from '../assets/images/intro-deux-garcons.jpg';
+import teamYouth from '../assets/images/team-jeunes-course.jpg';
+import teamSeniors from '../assets/images/team-seniors.jpg';
+import teamSoftball from '../assets/images/team-softball-frappe.jpg';
+import teamSlowpitch from '../assets/images/team-slowpitch.jpg';
+import valueTeam from '../assets/images/value-equipe.jpg';
+import valueInclusion from '../assets/images/team-jeunes.jpg';
+import valueFairplay from '../assets/images/value-fairplay.jpg';
+import priceGlove from '../assets/images/price-gant.jpg';
+import quoteBg from '../assets/images/quote-coutures.jpg';
+import seasonField from '../assets/images/saison-terrain.jpg';
+import g1 from '../assets/images/gallery-glissade.jpg';
+import g2 from '../assets/images/gallery-lanceur.jpg';
+import g3 from '../assets/images/gallery-gant-main.jpg';
+import g4 from '../assets/images/gallery-frappe-jeune.jpg';
+import g5 from '../assets/images/gallery-balles-sol.jpg';
+import g6 from '../assets/images/gallery-receveur.jpg';
+import g7 from '../assets/images/gallery-batte-nuit.jpg';
+import g8 from '../assets/images/gallery-base.jpg';
+import g9 from '../assets/images/gallery-cage.jpg';
+import g10 from '../assets/images/gallery-gant-herbe.jpg';
+
+const slides = [
+  { src: heroBatter, alt: 'Frappeur en maillot rouge frappant la balle' },
+  { src: heroKids, alt: 'Jeunes joueurs pendant un match de baseball' },
+  { src: heroTeam, alt: "Joueurs d'une équipe qui célèbrent ensemble" },
+  { src: heroField, alt: 'Marbre et lignes blanches d’un terrain de baseball' },
+];
+
+const teamCards = [
+  { title: 'Jeunes', sub: 'Peanuts · U12 · U15', text: 'Dès 5 ans, filles et garçons', href: '/equipes#peanuts', image: teamYouth, alt: 'Jeune joueur qui court vers la base' },
+  { title: 'Seniors & B5', sub: 'Division 4 · Baseball 5', text: 'Débutants adultes bienvenus', href: '/equipes#seniors', image: teamSeniors, alt: 'Équipe senior réunie sur le terrain' },
+  { title: 'Softball', sub: 'Dames · SLD3', text: 'Le baseball au féminin', href: '/equipes#softball', image: teamSoftball, alt: 'Joueuse de softball qui frappe la balle' },
+  { title: 'Slowpitch', sub: 'Loisir mixte', text: 'Convivial, pour tous les âges', href: '/equipes#slowpitch', image: teamSlowpitch, alt: 'Joueur frappant la balle au marbre' },
+];
+
+const valueImages = [
+  { src: valueTeam, alt: 'Équipe réunie autour de son coach' },
+  { src: valueInclusion, alt: 'Jeune joueur casqué, batte en main' },
+  { src: valueFairplay, alt: 'Joueurs alignés sur la ligne avant un match' },
+];
+
+const galleryImages = [
+  { src: g1, alt: 'Joueur qui glisse sur la base' },
+  { src: g2, alt: 'Lanceur sur le monticule' },
+  { src: g3, alt: 'Balle de baseball dans un gant en cuir' },
+  { src: g4, alt: 'Jeune frappeur devant le receveur' },
+  { src: g5, alt: 'Balles de baseball sur la terre battue' },
+  { src: g6, alt: 'Receveur accroupi derrière le grillage' },
+  { src: g7, alt: 'Jeune frappeur en soirée' },
+  { src: g8, alt: 'Glissade sur une base dans la poussière' },
+  { src: g9, alt: 'Frappeur à l’entraînement dans la cage' },
+  { src: g10, alt: 'Gant et balle posés dans l’herbe' },
+];
+---
+
+<BaseLayout>
+  <Hero slides={slides} />
+
+  <!-- Intro -->
+  <section class="section intro" id="decouvrir">
+    <div class="container intro-grid">
+      <div class="intro-text" data-reveal>
+        <p class="eyebrow eyebrow--left">Bienvenue chez les Guardians</p>
+        <h2>Le baseball à Binche <span class="script">depuis 2008</span></h2>
+        <p class="lead">
+          Né d'une simple campagne d'affichage, le club compte aujourd'hui plus de 60 membres et sept équipes. Des Peanuts de 5 ans aux seniors, on y vient pour
+          apprendre un sport unique, et on y reste pour l'ambiance.
+        </p>
+        <p>
+          Pas besoin d'avoir déjà tenu une batte : nos coaches accueillent tous les niveaux, le matériel est prêté et les trois premiers entraînements sont offerts.
+        </p>
+        <div class="btn-row">
+          <a href="/club" class="link-arrow">Découvrir le club <Icon name="lucide:arrow-right" aria-hidden="true" /></a>
+        </div>
+      </div>
+      <div class="intro-media">
+        <div class="frame media-a" data-reveal="fade">
+          <Image src={introKids} alt="Jeunes joueurs à l'entraînement de frappe" widths={[500, 800, 1100]} sizes="(min-width: 900px) 40vw, 90vw" />
+        </div>
+        <div class="frame media-b" data-reveal data-reveal-delay="200">
+          <Image src={introBoys} alt="Deux jeunes joueurs en casquette rouge" widths={[400, 700]} sizes="(min-width: 900px) 22vw, 50vw" />
+        </div>
+        <p class="badge" data-reveal data-reveal-delay="300"><span class="badge-num">3</span> essais<br />gratuits</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chiffres -->
+  <section class="stats section--dark" aria-label="Le club en chiffres">
+    <div class="container stats-grid">
+      <div class="stat"><span class="num" data-count="2008">2008</span><span class="label">Année de fondation</span></div>
+      <div class="stat"><span class="num" data-count="108">108</span><span class="label">Matricule LFBBS</span></div>
+      <div class="stat"><span class="num" data-count="60" data-suffix="+">60+</span><span class="label">Membres</span></div>
+      <div class="stat"><span class="num" data-count="7">7</span><span class="label">Équipes</span></div>
+    </div>
+  </section>
+
+  <!-- Équipes -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Nos équipes</p>
+        <h2>Un terrain <span class="script">pour chacun</span></h2>
+        <p>Compétition ou loisir, dès 5 ans ou à 50 ans : trouve la formule qui te ressemble.</p>
+      </div>
+      <ul class="team-cards">
+        {
+          teamCards.map((card, i) => (
+            <li data-reveal data-reveal-delay={i * 100}>
+              <a href={card.href} class="team-card">
+                <span class="frame">
+                  <Image src={card.image} alt={card.alt} widths={[400, 700]} sizes="(min-width: 1080px) 25vw, (min-width: 640px) 50vw, 100vw" />
+                </span>
+                <span class="team-body">
+                  <span class="team-sub">{card.sub}</span>
+                  <span class="team-title">{card.title}</span>
+                  <span class="team-text">{card.text}</span>
+                  <span class="team-go" aria-hidden="true"><Icon name="lucide:arrow-right" /></span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Valeurs -->
+  <section class="section section--sand">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Ce qui nous anime</p>
+        <h2>Plus qu'un sport, <span class="script">une équipe</span></h2>
+      </div>
+      <div class="values">
+        {
+          values.map((v, i) => (
+            <article class="value" data-reveal data-reveal-delay={i * 120}>
+              <div class="frame">
+                <Image src={valueImages[i].src} alt={valueImages[i].alt} widths={[400, 700]} sizes="(min-width: 900px) 33vw, 100vw" />
+              </div>
+              <span class="value-num">0{i + 1}</span>
+              <h3>{v.title}</h3>
+              <p>{v.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Offre d'essai / tarifs -->
+  <section class="section offer">
+    <div class="container offer-grid">
+      <div class="frame offer-media" data-reveal="fade">
+        <Image src={priceGlove} alt="Balle de baseball dans un gant en cuir" widths={[600, 1000]} sizes="(min-width: 900px) 45vw, 100vw" />
+      </div>
+      <div class="offer-text" data-reveal>
+        <p class="eyebrow eyebrow--left">Envie d'essayer ?</p>
+        <h2>Trois entraînements <span class="script">offerts</span></h2>
+        <p class="lead">Viens simplement en tenue de sport : le club prête gants, battes et casques. Tu décides ensuite si l'aventure te plaît.</p>
+        <ul class="offer-list">
+          <li><Icon name="lucide:circle-check" aria-hidden="true" /> 3 séances d'essai sans engagement</li>
+          <li><Icon name="lucide:circle-check" aria-hidden="true" /> Matériel prêté pendant l'essai</li>
+          <li><Icon name="lucide:circle-check" aria-hidden="true" /> Cotisation annuelle dès <strong>140&nbsp;€</strong></li>
+          <li><Icon name="lucide:circle-check" aria-hidden="true" /> Entraînements en salle l'hiver, dehors l'été</li>
+        </ul>
+        <div class="price-tags">
+          <div><span>Jeunes</span><strong>dès 140 €</strong></div>
+          <div><span>Cadets</span><strong>170 €</strong></div>
+          <div><span>Adultes</span><strong>220 €</strong></div>
+        </div>
+        <div class="btn-row">
+          <a href="/rejoindre#essai" class="btn">Réserver mon essai</a>
+          <a href="/rejoindre#inscription" class="btn btn--ghost">Tarifs & inscription</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Quote image={quoteBg} cite="L'ambition des Guardians">
+    Partager la passion du baseball <em>dans la convivialité</em>
+  </Quote>
+
+  <!-- Saison -->
+  <section class="season on-image">
+    <Image src={seasonField} alt="" widths={[768, 1280, 1920]} sizes="100vw" quality={65} class="season-bg" />
+    <div class="season-shade" aria-hidden="true"></div>
+    <div class="container season-inner">
+      <div class="season-card" data-reveal>
+        <p class="eyebrow eyebrow--left">La saison</p>
+        <h2>Toute l'année <span class="script">sur le pont</span></h2>
+        <div class="season-cols">
+          <div>
+            <Icon name="lucide:sun" aria-hidden="true" />
+            <h3>Fin mars — fin sept.</h3>
+            <p>Entraînements dehors à Épinois et matchs de championnat au SHAPE.</p>
+          </div>
+          <div>
+            <Icon name="lucide:snowflake" aria-hidden="true" />
+            <h3>Novembre — mars</h3>
+            <p>Préparation physique et technique en salle à Péronnes et Erquelinnes.</p>
+          </div>
+        </div>
+        <p class="season-event"><Icon name="lucide:trophy" aria-hidden="true" /> <span>Le club organise aussi <strong>The Guardians B5 Cup</strong>, un tournoi international de Baseball 5.</span></p>
+        <div class="btn-row">
+          <a href="/saison" class="btn">La saison des Guardians</a>
+          <a href={site.kalisport.calendar} class="link-arrow" target="_blank" rel="noopener">Calendrier des matchs <Icon name="lucide:arrow-up-right" aria-hidden="true" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galerie -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Galerie</p>
+        <h2>Au cœur <span class="script">du jeu</span></h2>
+        <p>Frappes, glissades et victoires partagées. Retrouvez les photos du club sur nos réseaux.</p>
+      </div>
+      <Gallery images={galleryImages} />
+      <div class="btn-row gallery-links">
+        <a href="https://www.flickr.com/photos/baseballbinche/" class="link-arrow" target="_blank" rel="noopener">Albums Flickr <Icon name="lucide:arrow-up-right" aria-hidden="true" /></a>
+        <a href="https://www.instagram.com/guardiansbaseballclub/" class="link-arrow" target="_blank" rel="noopener">Instagram <Icon name="lucide:arrow-up-right" aria-hidden="true" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA final -->
+  <section class="section section--red final" id="essai-rapide">
+    <div class="container final-grid">
+      <div data-reveal>
+        <p class="eyebrow eyebrow--left">Rejoins les Guardians</p>
+        <h2>Ton premier entraînement <span class="script final-script">t'attend</span></h2>
+        <p class="lead final-lead">Laisse-nous tes coordonnées : un coach te recontacte pour fixer ta séance d'essai dans la bonne catégorie.</p>
+        <p class="final-contact">
+          <Icon name="lucide:mail" aria-hidden="true" /> <a href={`mailto:${site.emails.inscription}`}>{site.emails.inscription}</a>
+        </p>
+      </div>
+      <div class="final-form" data-reveal data-reveal-delay="150">
+        <TrialForm compact />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Intro */
+  .intro-grid { display: grid; gap: clamp(3rem, 6vw, 5rem); align-items: center; }
+  @media (min-width: 900px) { .intro-grid { grid-template-columns: 1fr 1.05fr; } }
+  .intro-text .lead { margin-top: 1.5rem; }
+  .intro-media { position: relative; padding-bottom: 18%; padding-right: 12%; }
+  .media-a { aspect-ratio: 4 / 3.4; }
+  .media-b { position: absolute; right: 0; bottom: 0; width: 48%; aspect-ratio: 4 / 5; border: 10px solid var(--paper); }
+  .badge {
+    position: absolute; left: -1rem; bottom: 8%; margin: 0;
+    width: 8.5rem; height: 8.5rem; border-radius: 50%; display: grid; place-content: center; text-align: center;
+    background: var(--red); color: var(--white); font-family: var(--font-accent); font-size: 1rem; font-weight: 400;
+    letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.3; box-shadow: 0 12px 30px rgba(196, 18, 26, 0.35);
+  }
+  .badge-num { display: block; font-size: 2.6rem; line-height: 1; letter-spacing: 0; }
+  @media (max-width: 640px) { .badge { width: 6.5rem; height: 6.5rem; left: 0; font-size: 0.6rem; } .badge-num { font-size: 2rem; } }
+
+  /* Stats */
+  .stats { padding-block: clamp(3rem, 6vw, 4.5rem); }
+  .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem 1rem; text-align: center; }
+  @media (min-width: 800px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+  .stat { display: grid; gap: 0.35rem; position: relative; }
+  @media (min-width: 800px) { .stat + .stat::before { content: ''; position: absolute; left: 0; top: 15%; bottom: 15%; width: 1px; background: rgba(255, 255, 255, 0.15); } }
+  .num { font-family: var(--font-display); font-size: clamp(2.4rem, 1.8rem + 2.4vw, 3.6rem); font-weight: 400; color: var(--white); line-height: 1; font-variant-numeric: tabular-nums; }
+  .label { font-family: var(--font-accent); font-size: 1.15rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--red); }
+
+  /* Team cards */
+  .team-cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .team-cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1080px) { .team-cards { grid-template-columns: repeat(4, 1fr); } }
+  .team-card { position: relative; display: block; aspect-ratio: 3 / 4.2; text-decoration: none; color: var(--white); overflow: hidden; }
+  .team-card .frame { position: absolute; inset: 0; }
+  .team-card .frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(10, 10, 10, 0.88) 0%, rgba(10, 10, 10, 0.15) 55%, transparent 100%); transition: background 0.5s; }
+  .team-card:hover .frame::after { background: linear-gradient(0deg, rgba(143, 13, 19, 0.92) 0%, rgba(10, 10, 10, 0.25) 70%, transparent 100%); }
+  .team-body { position: absolute; inset: auto 0 0; padding: 1.75rem 4.75rem 1.75rem 1.75rem; display: grid; gap: 0.3rem; }
+  .team-sub { font-family: var(--font-accent); font-size: 1.05rem; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255, 255, 255, 0.8); }
+  .team-title { font-family: var(--font-display); font-size: clamp(1.3rem, 1.1rem + 0.5vw, 1.5rem); font-weight: 400; letter-spacing: 0.01em; text-transform: uppercase; line-height: 1.1; }
+  .team-text { font-size: 0.95rem; color: rgba(255, 255, 255, 0.85); }
+  .team-go { position: absolute; right: 1.5rem; bottom: 1.75rem; display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.6); transition: background 0.3s, border-color 0.3s, transform 0.3s var(--ease); }
+  .team-go svg { width: 1.1rem; height: 1.1rem; }
+  .team-card:hover .team-go { background: var(--white); color: var(--red-deep); border-color: var(--white); transform: translateX(3px); }
+
+  /* Values */
+  .values { display: grid; gap: clamp(2rem, 4vw, 3rem); }
+  @media (min-width: 900px) { .values { grid-template-columns: repeat(3, 1fr); } .value:nth-child(2) { margin-top: 3.5rem; } }
+  .value .frame { aspect-ratio: 4 / 3; margin-bottom: 1.5rem; }
+  .value-num { font-family: var(--font-script); font-size: 2.2rem; color: var(--red); line-height: 1; }
+  .value h3 { margin-top: 0.4rem; }
+  .value p { color: var(--muted); margin: 0; }
+
+  /* Offer */
+  .offer-grid { display: grid; gap: clamp(2.5rem, 6vw, 5rem); align-items: center; }
+  @media (min-width: 900px) { .offer-grid { grid-template-columns: 0.95fr 1fr; } }
+  .offer-media { aspect-ratio: 4 / 5; }
+  .offer-list { list-style: none; padding: 0; margin: 1.5rem 0; display: grid; gap: 0.7rem; }
+  .offer-list li { display: flex; gap: 0.75rem; align-items: flex-start; }
+  .offer-list svg { width: 1.3rem; height: 1.3rem; color: var(--red); flex-shrink: 0; margin-top: 0.25rem; }
+  .price-tags { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); margin-bottom: 2rem; }
+  .price-tags div { padding: 1rem; text-align: center; display: grid; gap: 0.1rem; }
+  .price-tags div + div { border-left: 1px solid var(--line); }
+  .price-tags span { font-family: var(--font-accent); font-size: 1.05rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+  .price-tags strong { font-family: var(--font-display); font-size: clamp(1rem, 0.9rem + 0.6vw, 1.35rem); color: var(--black); }
+
+  /* Season */
+  .season { position: relative; overflow: hidden; background: var(--black); padding-block: clamp(5rem, 12vw, 9rem); }
+  .season-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .season-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10, 10, 10, 0.1), rgba(10, 10, 10, 0.45)); }
+  .season-inner { position: relative; display: flex; justify-content: flex-end; }
+  .season-card { background: var(--paper); max-width: 40rem; padding: clamp(2rem, 5vw, 3.5rem); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25); }
+  .season-card .eyebrow { color: var(--red-deep); }
+  .season-cols { display: grid; gap: 1.5rem; margin-block: 1.5rem; }
+  @media (min-width: 560px) { .season-cols { grid-template-columns: 1fr 1fr; } }
+  .season-cols svg { width: 1.8rem; height: 1.8rem; color: var(--red); margin-bottom: 0.6rem; }
+  .season-cols h3 { font-size: 0.95rem; margin-bottom: 0.4rem; }
+  .season-cols p { font-size: 0.95rem; color: var(--muted); margin: 0; }
+  .season-event { display: flex; gap: 0.75rem; align-items: flex-start; padding: 1rem 1.25rem; background: var(--sand); font-size: 0.95rem; margin-bottom: 2rem; }
+  .season-event svg { width: 1.4rem; height: 1.4rem; color: var(--red); flex-shrink: 0; margin-top: 0.15rem; }
+
+  .gallery-links { justify-content: center; gap: 2rem; margin-top: 2.5rem; }
+
+  /* Final CTA */
+  .final-grid { display: grid; gap: clamp(2.5rem, 5vw, 4rem); align-items: start; }
+  @media (min-width: 960px) { .final-grid { grid-template-columns: 0.85fr 1fr; } }
+  .final-script { color: var(--white); }
+  .final-lead { color: rgba(255, 255, 255, 0.92); margin-top: 1.25rem; }
+  .final-contact { display: flex; align-items: center; gap: 0.6rem; font-weight: 600; }
+  .final-contact svg { width: 1.2rem; height: 1.2rem; }
+  .final-contact a { text-decoration: underline; text-underline-offset: 4px; word-break: break-all; }
+  .final-form { background: var(--paper); color: var(--ink); padding: clamp(1.5rem, 4vw, 2.5rem); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2); }
+</style>

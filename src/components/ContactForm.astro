@@ -1,0 +1,54 @@
+---
+import { site } from '../data/site';
+import { contactRecipients } from '../data/people';
+
+const action = site.formspree.contact ? `https://formspree.io/f/${site.formspree.contact}` : '';
+---
+
+<form class="contact-form" action={action} method="POST" data-form data-mailto={site.emails.inscription} data-subject="Message depuis le site">
+  <div class="form-grid">
+    <div class="field">
+      <label for="c-prenom">Prénom *</label>
+      <input id="c-prenom" name="prenom" autocomplete="given-name" required />
+    </div>
+    <div class="field">
+      <label for="c-nom">Nom *</label>
+      <input id="c-nom" name="nom" autocomplete="family-name" required />
+    </div>
+    <div class="field">
+      <label for="c-email">E-mail *</label>
+      <input id="c-email" name="email" type="email" autocomplete="email" required />
+    </div>
+    <div class="field">
+      <label for="c-tel">Téléphone</label>
+      <input id="c-tel" name="telephone" type="tel" autocomplete="tel" />
+    </div>
+    <div class="field">
+      <label for="c-dest">Destinataire *</label>
+      <select id="c-dest" name="destinataire" required>
+        <option value="">— Sélectionnez —</option>
+        {contactRecipients.map((r) => <option>{r}</option>)}
+      </select>
+    </div>
+    <div class="field">
+      <label for="c-objet">Objet *</label>
+      <input id="c-objet" name="objet" required />
+    </div>
+    <div class="field span-2">
+      <label for="c-message">Message *</label>
+      <textarea id="c-message" name="message" required></textarea>
+    </div>
+    <div class="field field--check span-2">
+      <input id="c-rgpd" name="consentement" type="checkbox" value="oui" required />
+      <label for="c-rgpd">J'accepte que les informations saisies soient utilisées pour traiter ma demande de contact.</label>
+    </div>
+    <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+  </div>
+  <button type="submit" class="btn" style="margin-top:1.75rem">Envoyer le message</button>
+  <p class="form-status" role="status" aria-live="polite" data-status></p>
+</form>
+
+<script>
+  import { initForms } from '../scripts/forms';
+  initForms();
+</script>
