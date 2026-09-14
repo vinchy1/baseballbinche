@@ -1,4 +1,5 @@
 ---
+import { url, base } from '../utils/url';
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import logo from '../assets/logo-guardians.png';
@@ -8,14 +9,14 @@ interface Props {
   overlay?: boolean;
 }
 const { overlay = true } = Astro.props;
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const path = Astro.url.pathname.slice(base.length).replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => href !== '/' && path.startsWith(href);
 const isExternal = (href: string) => href.startsWith('http');
 ---
 
 <header class="site-header" data-header data-overlay={overlay ? 'true' : 'false'}>
   <div class="bar">
-    <a href="/" class="brand" aria-label="Guardians Binche — accueil">
+    <a href={url('/')} class="brand" aria-label="Guardians Binche — accueil">
       <Image src={logo} alt="" width={120} height={141} class="brand-logo" loading="eager" />
       <span class="brand-text">
         <span class="brand-name">Guardians</span>
@@ -28,7 +29,7 @@ const isExternal = (href: string) => href.startsWith('http');
         {
           nav.map((item) => (
             <li class:list={['nav-item', { 'has-children': item.children }]}>
-              <a href={item.href} class="nav-link" aria-current={isCurrent(item.href) ? 'page' : undefined}>
+              <a href={url(item.href)} class="nav-link" aria-current={isCurrent(item.href) ? 'page' : undefined}>
                 {item.label}
                 {item.children && <Icon name="lucide:chevron-down" class="chev" aria-hidden="true" />}
               </a>
@@ -36,7 +37,7 @@ const isExternal = (href: string) => href.startsWith('http');
                 <ul class="dropdown">
                   {item.children.map((child) => (
                     <li>
-                      <a href={child.href} {...(isExternal(child.href) ? { target: '_blank', rel: 'noopener' } : {})}>
+                      <a href={url(child.href)} {...(isExternal(child.href) ? { target: '_blank', rel: 'noopener' } : {})}>
                         {child.label}
                         {isExternal(child.href) && <Icon name="lucide:arrow-up-right" aria-hidden="true" />}
                       </a>
@@ -55,7 +56,7 @@ const isExternal = (href: string) => href.startsWith('http');
         <Icon name="lucide:circle-user-round" aria-hidden="true" />
         <span>Connexion</span>
       </a>
-      <a href="/rejoindre#essai" class="btn cta">Essai gratuit</a>
+      <a href={url('/rejoindre#essai')} class="btn cta">Essai gratuit</a>
       <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-burger>
         <span class="sr-only">Ouvrir le menu</span>
         <span class="burger-lines" aria-hidden="true"><span></span><span></span><span></span></span>
@@ -66,16 +67,16 @@ const isExternal = (href: string) => href.startsWith('http');
   <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
     <nav aria-label="Navigation mobile">
       <ul>
-        <li><a href="/" class="m-link">Accueil</a></li>
+        <li><a href={url('/')} class="m-link">Accueil</a></li>
         {
           nav.map((item) => (
             <li>
-              <a href={item.href} class="m-link">{item.label}</a>
+              <a href={url(item.href)} class="m-link">{item.label}</a>
               {item.children && (
                 <ul class="m-sub">
                   {item.children.map((child) => (
                     <li>
-                      <a href={child.href} {...(isExternal(child.href) ? { target: '_blank', rel: 'noopener' } : {})}>{child.label}</a>
+                      <a href={url(child.href)} {...(isExternal(child.href) ? { target: '_blank', rel: 'noopener' } : {})}>{child.label}</a>
                     </li>
                   ))}
                 </ul>
@@ -85,7 +86,7 @@ const isExternal = (href: string) => href.startsWith('http');
         }
       </ul>
       <div class="m-actions">
-        <a href="/rejoindre#essai" class="btn">3 essais gratuits</a>
+        <a href={url('/rejoindre#essai')} class="btn">3 essais gratuits</a>
         <a href={site.kalisport.login} class="btn btn--light" target="_blank" rel="noopener">Espace membre</a>
       </div>
     </nav>

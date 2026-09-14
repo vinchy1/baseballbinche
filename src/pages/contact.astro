@@ -1,4 +1,5 @@
 ---
+import { url } from '../utils/url';
 import { Icon } from 'astro-icon/components';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
@@ -86,7 +87,7 @@ const keyContacts = committee.filter((p) => p.phone);
           ))
         }
       </ul>
-      <p class="more" data-reveal><a href="/club#organigramme" class="link-arrow">Tout l'organigramme <Icon name="lucide:arrow-right" aria-hidden="true" /></a></p>
+      <p class="more" data-reveal><a href={url('/club#organigramme')} class="link-arrow">Tout l'organigramme <Icon name="lucide:arrow-right" aria-hidden="true" /></a></p>
     </div>
   </section>
 </BaseLayout>

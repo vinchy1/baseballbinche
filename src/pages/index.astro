@@ -1,4 +1,5 @@
 ---
+import { url } from '../utils/url';
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -87,7 +88,7 @@ const galleryImages = [
           Pas besoin d'avoir déjà tenu une batte : nos coaches accueillent tous les niveaux, le matériel est prêté et les trois premiers entraînements sont offerts.
         </p>
         <div class="btn-row">
-          <a href="/club" class="link-arrow">Découvrir le club <Icon name="lucide:arrow-right" aria-hidden="true" /></a>
+          <a href={url('/club')} class="link-arrow">Découvrir le club <Icon name="lucide:arrow-right" aria-hidden="true" /></a>
         </div>
       </div>
       <div class="intro-media">
@@ -124,7 +125,7 @@ const galleryImages = [
         {
           teamCards.map((card, i) => (
             <li data-reveal data-reveal-delay={i * 100}>
-              <a href={card.href} class="team-card">
+              <a href={url(card.href)} class="team-card">
                 <span class="frame">
                   <Image src={card.image} alt={card.alt} widths={[400, 700]} sizes="(min-width: 1080px) 25vw, (min-width: 640px) 50vw, 100vw" />
                 </span>
@@ -188,8 +189,8 @@ const galleryImages = [
           <div><span>Adultes</span><strong>220 €</strong></div>
         </div>
         <div class="btn-row">
-          <a href="/rejoindre#essai" class="btn">Réserver mon essai</a>
-          <a href="/rejoindre#inscription" class="btn btn--ghost">Tarifs & inscription</a>
+          <a href={url('/rejoindre#essai')} class="btn">Réserver mon essai</a>
+          <a href={url('/rejoindre#inscription')} class="btn btn--ghost">Tarifs & inscription</a>
         </div>
       </div>
     </div>
@@ -221,7 +222,7 @@ const galleryImages = [
         </div>
         <p class="season-event"><Icon name="lucide:trophy" aria-hidden="true" /> <span>Le club organise aussi <strong>The Guardians B5 Cup</strong>, un tournoi international de Baseball 5.</span></p>
         <div class="btn-row">
-          <a href="/saison" class="btn">La saison des Guardians</a>
+          <a href={url('/saison')} class="btn">La saison des Guardians</a>
           <a href={site.kalisport.calendar} class="link-arrow" target="_blank" rel="noopener">Calendrier des matchs <Icon name="lucide:arrow-up-right" aria-hidden="true" /></a>
         </div>
       </div>

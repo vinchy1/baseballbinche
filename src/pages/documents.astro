@@ -1,4 +1,5 @@
 ---
+import { url } from '../utils/url';
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -100,7 +101,7 @@ const rules = [
         </p>
         <div class="btn-row">
           <a href={site.files.licence} class="btn" target="_blank" rel="noopener"><Icon name="lucide:download" aria-hidden="true" /> Formulaire 2026 (PDF)</a>
-          <a href="/rejoindre#inscription" class="link-arrow">Les 4 étapes d'inscription <Icon name="lucide:arrow-right" aria-hidden="true" /></a>
+          <a href={url('/rejoindre#inscription')} class="link-arrow">Les 4 étapes d'inscription <Icon name="lucide:arrow-right" aria-hidden="true" /></a>
         </div>
       </div>
     </div>

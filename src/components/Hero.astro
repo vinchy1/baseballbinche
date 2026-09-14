@@ -1,4 +1,5 @@
 ---
+import { url } from '../utils/url';
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import type { ImageMetadata } from 'astro';
@@ -36,8 +37,8 @@ const { slides } = Astro.props;
     </h1>
     <p class="intro">Filles et garçons dès 5 ans, adultes débutants ou confirmés : viens tester le baseball avec les Guardians.</p>
     <div class="btn-row">
-      <a href="/rejoindre#essai" class="btn">3 entraînements gratuits</a>
-      <a href="/equipes" class="btn btn--light">Découvrir les équipes</a>
+      <a href={url('/rejoindre#essai')} class="btn">3 entraînements gratuits</a>
+      <a href={url('/equipes')} class="btn btn--light">Découvrir les équipes</a>
     </div>
   </div>
 

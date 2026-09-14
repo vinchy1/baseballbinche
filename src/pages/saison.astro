@@ -1,4 +1,5 @@
 ---
+import { url } from '../utils/url';
 import { Image } from 'astro:assets';
 import { Icon } from 'astro-icon/components';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -125,7 +126,7 @@ const phases = [
         </ul>
         <p class="cup-address"><Icon name="lucide:map-pin" aria-hidden="true" /> {site.b5CupAddress}</p>
         <div class="btn-row">
-          <a href="/contact" class="btn">Infos & inscriptions équipes</a>
+          <a href={url('/contact')} class="btn">Infos & inscriptions équipes</a>
         </div>
       </div>
     </div>
