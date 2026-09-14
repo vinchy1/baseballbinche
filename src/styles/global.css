@@ -6,16 +6,21 @@
 
 /* ---------- Tokens ---------- */
 :root {
-  --red: #ed1b24;          /* rouge du logo */
+  --red: #ed1b24;          /* rouge du logo, identique dans les deux thèmes */
   --red-deep: #c4121a;     /* texte/lien rouge sur fond clair (contraste AA) */
   --red-dark: #8f0d13;
-  --black: #141414;
+  --black: #141414;        /* noir « pur », utilisé pour les blocs volontairement sombres (footer, hero…) */
+  --white: #fff;           /* blanc « pur », utilisé pour le texte/les icônes sur fond sombre */
+
+  /* Tokens de thème : valeurs clair par défaut, écrasées ci-dessous en mode sombre. */
   --ink: #2a2a2a;
+  --heading: var(--black);
   --muted: #6b6560;
   --paper: #faf7f2;
   --sand: #ede8e0;
+  --surface: var(--white);
   --line: #ddd5ca;
-  --white: #fff;
+  color-scheme: light;
 
   --font-display: 'Titan One', 'Arial Black', Impact, sans-serif;
   --font-accent: 'Bangers', Impact, 'Arial Narrow', sans-serif;
@@ -27,6 +32,18 @@
   --section: clamp(4.5rem, 10vw, 8.5rem);
   --header-h: 84px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Mode sombre : activé par le bouton du header (attribut posé sur <html>, cf. BaseLayout/Header). */
+:root[data-theme='dark'] {
+  --ink: #eae5dc;
+  --heading: #f5f1ea;
+  --muted: #a89f93;
+  --paper: #15120f;
+  --sand: #1f1a15;
+  --surface: #221d17;
+  --line: #38322a;
+  color-scheme: dark;
 }
 
 /* ---------- Base ---------- */
@@ -45,6 +62,7 @@ body {
   background: var(--paper);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
 }
 
 img, picture, svg, video { display: block; max-width: 100%; height: auto; }
@@ -57,7 +75,7 @@ h1, h2, h3, h4 {
   line-height: 1.08;
   letter-spacing: 0.01em;
   text-transform: uppercase;
-  color: var(--black);
+  color: var(--heading);
   margin: 0 0 0.6em;
   text-wrap: balance;
 }
@@ -128,7 +146,7 @@ p { margin: 0 0 1.1em; text-wrap: pretty; }
 .btn:hover { --btn-bg: var(--red-dark); --btn-bd: var(--red-dark); }
 .btn:active { transform: translateY(1px); }
 .btn svg { width: 1.1em; height: 1.1em; }
-.btn--ghost { --btn-bg: transparent; --btn-fg: var(--black); --btn-bd: var(--black); }
+.btn--ghost { --btn-bg: transparent; --btn-fg: var(--heading); --btn-bd: var(--heading); }
 .btn--ghost:hover { --btn-bg: var(--black); --btn-fg: var(--white); --btn-bd: var(--black); }
 .btn--light { --btn-bg: transparent; --btn-fg: var(--white); --btn-bd: rgba(255, 255, 255, 0.7); }
 .btn--light:hover { --btn-bg: var(--white); --btn-fg: var(--black); --btn-bd: var(--white); }
@@ -170,8 +188,8 @@ a:hover .frame img, .frame--zoom:hover img { transform: scale(1.05); }
 .field { display: grid; gap: 0.4rem; }
 .field label { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; color: var(--ink); }
 .field input, .field select, .field textarea {
-  width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--line); background: var(--white);
-  border-radius: 0; transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  border-radius: 0; transition: border-color 0.2s, box-shadow 0.2s, background-color 0.3s var(--ease), color 0.3s var(--ease);
 }
 .field textarea { min-height: 8rem; resize: vertical; }
 .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 3px rgba(237, 27, 36, 0.15); }
@@ -185,3 +203,16 @@ a:hover .frame img, .frame--zoom:hover img { transform: scale(1.05); }
 .form-status[data-state='ok'] { color: #1c7a3e; }
 .form-status[data-state='error'] { color: var(--red-deep); }
 .hp { position: absolute; left: -9999px; }
+
+/* ---------- Bascule clair / sombre ---------- */
+.theme-toggle {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 2.6rem; height: 2.6rem; padding: 0;
+  color: inherit; background: none; border: 1px solid currentColor; border-radius: 50%;
+  opacity: 0.85; cursor: pointer; transition: opacity 0.2s, background-color 0.2s;
+}
+.theme-toggle:hover { opacity: 1; }
+.theme-toggle svg { width: 1.15rem; height: 1.15rem; }
+.theme-toggle .icon-moon { display: none; }
+:root[data-theme='dark'] .theme-toggle .icon-sun { display: none; }
+:root[data-theme='dark'] .theme-toggle .icon-moon { display: block; }

@@ -56,6 +56,11 @@ const isExternal = (href: string) => href.startsWith('http');
         <Icon name="lucide:circle-user-round" aria-hidden="true" />
         <span>Connexion</span>
       </a>
+      <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false">
+        <Icon name="lucide:sun" class="icon-sun" aria-hidden="true" />
+        <Icon name="lucide:moon" class="icon-moon" aria-hidden="true" />
+        <span class="sr-only">Basculer entre mode clair et mode sombre</span>
+      </button>
       <a href={url('/rejoindre#essai')} class="btn cta">Essai gratuit</a>
       <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-burger>
         <span class="sr-only">Ouvrir le menu</span>
@@ -96,7 +101,7 @@ const isExternal = (href: string) => href.startsWith('http');
 <style>
   .site-header {
     position: fixed; inset: 0 0 auto; z-index: 100;
-    color: var(--black); background: rgba(250, 247, 242, 0.97);
+    color: var(--heading); background: color-mix(in srgb, var(--surface) 97%, transparent);
     box-shadow: 0 1px 0 var(--line);
     transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease), color 0.4s var(--ease);
   }
@@ -136,7 +141,7 @@ const isExternal = (href: string) => href.startsWith('http');
   .dropdown {
     position: absolute; top: calc(100% - 0.75rem); left: -1.25rem; min-width: 15rem;
     list-style: none; margin: 0; padding: 0.75rem 0;
-    background: var(--white); color: var(--ink); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.14);
+    background: var(--surface); color: var(--ink); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.14);
     border-top: 3px solid var(--red);
     opacity: 0; visibility: hidden; transform: translateY(8px);
     transition: opacity 0.25s var(--ease), transform 0.25s var(--ease), visibility 0.25s;
@@ -199,6 +204,24 @@ const isExternal = (href: string) => href.startsWith('http');
     const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 40);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  if (themeToggle) {
+    const root = document.documentElement;
+    const syncToggle = () => {
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      themeToggle.setAttribute('aria-pressed', String(isDark));
+    };
+    syncToggle();
+    themeToggle.addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try {
+        localStorage.setItem('theme', next);
+      } catch (e) {}
+      syncToggle();
+    });
   }
 
   if (header && burger && menu) {

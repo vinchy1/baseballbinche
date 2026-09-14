@@ -29,6 +29,13 @@ Langue du site et des échanges : **français** (tutoiement dans les accroches j
 - **Liens internes : toujours `href={url('/page#ancre')}`**, jamais `href="/page"` en dur (sinon cassé sur GitHub Pages).
   Les `href` des données (`nav`, cartes) passent aussi par `url()` au rendu. Liens externes : `target="_blank" rel="noopener"`.
 - **Couleurs** : uniquement les tokens (`--red` #ED1B24 = rouge du logo, `--red-deep` pour texte rouge sur fond clair, `--black`, `--paper`, `--sand`, `--line`, `--muted`).
+  - `--black` et `--white` sont des couleurs **littérales**, réservées aux blocs volontairement sombres/clairs
+    (footer, hero, `section--dark`, menu mobile…) : elles ne changent pas avec le thème.
+  - Pour du texte/fond qui doit suivre le mode clair/sombre, utiliser `--heading` (titres, texte fort sur fond de page)
+    et `--surface` (fond de carte/champ de formulaire) plutôt que `--black`/`--white` en dur.
+- **Mode clair/sombre** : bouton dans `Header.astro` (`data-theme-toggle`), bascule l'attribut `data-theme` sur `<html>`
+  et le stocke dans `localStorage('theme')` ; par défaut suit `prefers-color-scheme`. Script anti-flash inline en tête
+  de `BaseLayout.astro`. Tokens de thème définis dans `global.css` (`:root` clair, `:root[data-theme='dark']` sombre).
 - **Polices** : `--font-display` Titan One (titres, gros chiffres, prix, citations ; poids 400, pas de faux gras),
   `--font-accent` Bangers (menu, boutons, eyebrows, étiquettes, en-têtes de tableau),
   `--font-script` Handlee (mot manuscrit dans les titres via `<span class="script">`), `--font-body` Source Sans 3.
